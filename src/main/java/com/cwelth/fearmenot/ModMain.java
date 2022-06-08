@@ -4,15 +4,16 @@ import com.cwelth.fearmenot.command_handlers.*;
 import com.cwelth.fearmenot.event_handlers.MainEvents;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
+import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
@@ -43,9 +44,9 @@ public class ModMain {
     public class ForgeEventHandlers {
 
         @SubscribeEvent
-        public void serverLoad(FMLServerStartingEvent event) {
-            CommandDispatcher<CommandSource> dispatcher = event.getCommandDispatcher();
-            LiteralCommandNode<CommandSource> cmds = dispatcher.register(
+        public void serverLoad(ServerStartingEvent event) {
+            CommandDispatcher<CommandSourceStack> dispatcher = event.getServer().getCommands().getDispatcher();
+            LiteralCommandNode<CommandSourceStack> cmds = dispatcher.register(
                     Commands.literal("fearme")
                             .then(CMDRemove.register(dispatcher))
                             .then(CMDAdd.register(dispatcher))

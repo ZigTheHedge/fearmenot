@@ -1,32 +1,28 @@
 package com.cwelth.fearmenot.command_handlers;
 
 import com.cwelth.fearmenot.Configuration;
-import com.google.gson.internal.$Gson$Preconditions;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.builder.ArgumentBuilder;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-
-import java.util.ArrayList;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public class CMDList {
-    public static ArgumentBuilder<CommandSource, ?> register(CommandDispatcher<CommandSource> dispatcher) {
+    public static LiteralArgumentBuilder<CommandSourceStack> register(CommandDispatcher<CommandSourceStack> dispatcher) {
         return Commands.literal("list")
-                .requires(cs -> cs.hasPermissionLevel(2))
+                .requires(cs -> cs.hasPermission(2))
                 .executes(cs -> {
-                    cs.getSource().sendFeedback(new TranslationTextComponent("cmd.list"), false);
+                    cs.getSource().sendSuccess(new TranslatableComponent("cmd.list"), false);
                     boolean singleOne = false;
                     for(int i = 0; i < Configuration.FEARED_LIST.get().size(); i++)
                     {
                         singleOne = true;
-                        cs.getSource().sendFeedback(new StringTextComponent("* " + Configuration.FEARED_LIST.get().get(i)), false);
+                        cs.getSource().sendSuccess(new TextComponent("* " + Configuration.FEARED_LIST.get().get(i)), false);
                     }
                     if(!singleOne)
-                        cs.getSource().sendFeedback(new TranslationTextComponent("cmd.list.empty"), false);
+                        cs.getSource().sendSuccess(new TranslatableComponent("cmd.list.empty"), false);
                     return 0;
                 });
     }

@@ -1,13 +1,20 @@
 modLoader="javafml" #mandatory
-loaderVersion="[31,)" #mandatory (26 is current forge version)
+loaderVersion="[40,)" #mandatory (26 is current forge version)
+license="MIT License"
 [[mods]] #mandatory
 modId="fearmenot" #mandatory
-version="1.0" #mandatory
+version="1.1" #mandatory
 displayName="Fear Me! (not)" #mandatory
 
 [[dependencies.fearmenot]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[31,)" #mandatory
+    versionRange="[40,)" #mandatory
+    ordering="NONE"
+    side="SERVER"
+[[dependencies.fearmenot]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.18.2,1.19)"
     ordering="NONE"
     side="SERVER"

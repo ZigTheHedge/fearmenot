@@ -2,18 +2,18 @@ package com.cwelth.fearmenot.command_handlers;
 
 import com.cwelth.fearmenot.Configuration;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.builder.ArgumentBuilder;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public class CMDDisable {
-    public static ArgumentBuilder<CommandSource, ?> register(CommandDispatcher<CommandSource> dispatcher) {
+    public static LiteralArgumentBuilder<CommandSourceStack> register(CommandDispatcher<CommandSourceStack> dispatcher) {
         return Commands.literal("disable")
-                .requires(cs -> cs.hasPermissionLevel(2))
+                .requires(cs -> cs.hasPermission(2))
                 .executes(cs -> {
-                    cs.getSource().sendFeedback(new TranslationTextComponent("cmd.disable"), false);
+                    cs.getSource().sendSuccess(new TranslatableComponent("cmd.disable"), false);
                     Configuration.MOD_ENABLED.set(false);
                     return 0;
                 });
