@@ -7,8 +7,8 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -18,9 +18,9 @@ import java.util.ArrayList;
 public class MainEvents {
 
     @SubscribeEvent
-    public void onBecomeTarget(LivingSetAttackTargetEvent ev) {
-        LivingEntity entity = ev.getEntityLiving();
-        LivingEntity target = ev.getTarget();
+    public void onBecomeTarget(LivingChangeTargetEvent ev) {
+        LivingEntity entity = ev.getEntity();
+        LivingEntity target = ev.getNewTarget();
 
         if (target != null && Configuration.FEARED_LIST.get().contains(target.getUUID().toString())) {
             ((Mob)entity).setTarget(null);
@@ -28,7 +28,7 @@ public class MainEvents {
     }
 
     @SubscribeEvent
-    public static void onEntityJoin(EntityJoinWorldEvent e) {
+    public static void onEntityJoin(EntityJoinLevelEvent e) {
         if(Configuration.MOD_ENABLED.get())
         {
             if(e.getEntity() instanceof PathfinderMob)

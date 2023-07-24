@@ -6,10 +6,9 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 public class CMDReload implements Command<CommandSourceStack> {
@@ -26,7 +25,7 @@ public class CMDReload implements Command<CommandSourceStack> {
     @Override
     public int run(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         Configuration.loadConfig(Configuration.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve("fearmenot-common.toml"));
-        context.getSource().sendSuccess(new TranslatableComponent("cmd.reload"), false);
+        context.getSource().sendSuccess(Component.translatable("cmd.reload"), false);
         return 0;
     }
 }
